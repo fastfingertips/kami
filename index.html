@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive origami folding demo that responds to device posture."
+    />
+    <meta name="theme-color" content="#201a14" />
+    <title>kami</title>
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="preload" as="image" href="textures/wood.jpg" />
+    <link rel="preload" as="image" href="textures/paper.jpg" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <div id="hud">
+      <div class="row">
+        <button id="resetActive" type="button">Reset</button>
+        <button id="undo" type="button" disabled>Undo</button>
+        <button id="foldFallback" type="button">Fold</button>
+        <button
+          id="toggleHelp"
+          type="button"
+          aria-controls="helpBlock"
+          aria-pressed="false"
+        >
+          Show Options
+        </button>
+        <a
+          id="buyCoffee"
+          href="https://www.buymeacoffee.com/maxwase"
+          target="_blank"
+          style="display: none"
+        >
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            alt="Buy Me A Coffee"
+            style="height: 32px; width: auto"
+          />
+        </a>
+      </div>
+
+      <div class="help" id="helpBlock" style="display: none">
+        <div id="foldHelp"></div>
+        <div id="gestureHelp"></div>
+        <div class="row" aria-label="Motion options">
+          <div class="input-row mono">
+            <span>Stability threshold:</span>
+            <span id="stableAccelValue">0.35 m/s²</span>
+            <input
+              id="stableAccel"
+              type="range"
+              min="0"
+              max="3"
+              step="0.05"
+              value="0.35"
+            />
+          </div>
+          <div class="input-row mono">
+            <label
+              title="Reverse which side the fold prefers to move toward when triggered"
+            >
+              Invert fold direction
+              <input id="invertFoldDirection" type="checkbox" />
+            </label>
+          </div>
+          <div class="input-row mono" aria-label="Hinge controls">
+            <span>X:</span>
+            <input
+              id="manualHingeX"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="50"
+            />
+            <span>Y:</span>
+            <input
+              id="manualHingeY"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="50"
+            />
+          </div>
+          <div class="input-row mono">
+            <label>
+              Flip hinge
+              <input id="manualHingeFlip" type="checkbox" />
+            </label>
+          </div>
+        </div>
+
+        <div class="mono" id="status" role="status" aria-live="polite"></div>
+
+        <div class="input-row mono">
+          <a
+            id="repoLink"
+            href="https://github.com/maxwase/kami"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub source
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
