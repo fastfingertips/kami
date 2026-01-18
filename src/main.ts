@@ -263,13 +263,15 @@ resetActiveBtn.onclick = () => {
   paper.pos = { x: center.x, y: center.y };
 };
 
-undoBtn.onclick = () => {
+const performUndo = () => {
   if (foldRuntime.phase === "animating") return;
   const snap = undoStack.pop();
   if (!snap) return;
   restorePaper(getActivePaper(), snap);
   updateUndoBtn(false);
 };
+
+undoBtn.onclick = performUndo;
 
 attachGestureHandlers({
   canvas: canvasEl,
@@ -289,11 +291,24 @@ attachGestureHandlers({
     postureSupport === PostureSupport.Unavailable || platform === Platform.Tauri,
 });
 
-// Space key support for all platforms (web users can always use keyboard)
+// Keyboard shortcuts:
+// - Space: Fold
+// - Ctrl+Z / Cmd+Z: Undo
 window.addEventListener("keydown", (e) => {
-  if (e.code !== "Space" || e.repeat) return;
-  e.preventDefault();
-  manualFoldQueued = true;
+  if (e.repeat) return;
+
+  // Undo: Ctrl+Z or Cmd+Z
+  if ((e.ctrlKey || e.metaKey) && e.code === "KeyZ") {
+    e.preventDefault();
+    performUndo();
+    return;
+  }
+
+  // Fold: Space
+  if (e.code === "Space") {
+    e.preventDefault();
+    manualFoldQueued = true;
+  }
 });
 
 foldFallbackBtn.style.display = "inline-block";
@@ -382,8 +397,8 @@ function tick(now: number) {
       platform === Platform.Tauri && device === Device.Laptop
         ? hingeBaseDir
         : platform === Platform.Web &&
-            device === Device.Phone &&
-            resolveScreenLandscape(cssW, cssH)
+          device === Device.Phone &&
+          resolveScreenLandscape(cssW, cssH)
           ? hingeBaseDir
           : options.manualHingeDirFlip
             ? perp2(hingeBaseDir) // rotate 90° to flip line orientation
@@ -406,7 +421,7 @@ function tick(now: number) {
     const foldedNow =
       postureSupport === PostureSupport.Available
         ? resolveFoldState(postureType, hingeInfo.segments) === FoldState.Folded ||
-          manualFoldQueued
+        manualFoldQueued
         : manualFoldQueued;
     const screenAngle = normalizeScreenAngle(getScreenAngleDeg());
     const accel = motion.getAccel();
