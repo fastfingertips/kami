@@ -1,8 +1,5 @@
 import type { SegmentRect, SegmentSource } from "./hinge";
 import { getTauriPostureType } from "./tauri";
-import { Device, Platform, resolveRuntimeInfo } from "./runtime";
-
-const runtime = resolveRuntimeInfo();
 
 export enum PostureSupport {
   Available = "available",
@@ -19,7 +16,7 @@ export interface HelpCopy {
   gesture: string;
 }
 
-export function helpCopyForSupport(support: PostureSupport): HelpCopy {
+export function helpCopyForSupport(): HelpCopy {
   // Combined help text for all platforms to avoid confusion
   return {
     fold: `

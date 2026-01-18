@@ -317,7 +317,7 @@ foldFallbackBtn.onclick = () => {
   manualFoldQueued = true;
 };
 
-const helpCopy = helpCopyForSupport(postureSupport);
+const helpCopy = helpCopyForSupport();
 foldHelpEl.innerHTML = helpCopy.fold;
 const gestureHelp =
   platform === Platform.Tauri && device === Device.Laptop
