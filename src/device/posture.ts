@@ -1,5 +1,8 @@
 import type { SegmentRect, SegmentSource } from "./hinge";
 import { getTauriPostureType } from "./tauri";
+import { Platform, resolveRuntimeInfo } from "./runtime";
+
+const runtime = resolveRuntimeInfo();
 
 export enum PostureSupport {
   Available = "available",
