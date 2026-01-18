@@ -289,13 +289,12 @@ attachGestureHandlers({
     postureSupport === PostureSupport.Unavailable || platform === Platform.Tauri,
 });
 
-if (postureSupport === PostureSupport.Unavailable) {
-  window.addEventListener("keydown", (e) => {
-    if (e.code !== "Space" || e.repeat) return;
-    e.preventDefault();
-    manualFoldQueued = true;
-  });
-}
+// Space key support for all platforms (web users can always use keyboard)
+window.addEventListener("keydown", (e) => {
+  if (e.code !== "Space" || e.repeat) return;
+  e.preventDefault();
+  manualFoldQueued = true;
+});
 
 foldFallbackBtn.style.display = "inline-block";
 foldFallbackBtn.onclick = () => {

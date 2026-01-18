@@ -184,15 +184,37 @@ export function attachGestureHandlers(opts: GestureOptions): () => void {
     rotateAnchorScreen = undefined;
   };
 
+  // Mouse wheel rotation - rotate paper around its center
+  const WHEEL_ROTATION_SPEED = 0.0004;
+
+  const onWheel = (e: WheelEvent) => {
+    if (getLockState() === InputLock.Locked) return;
+    e.preventDefault();
+
+    const paper = getActivePaper();
+    const centroid = getPaperLocalCentroid(paper);
+    const centroidScreen = localToScreen(paper, centroid);
+
+    // deltaY > 0 = scroll down = clockwise rotation
+    const deltaAngle = e.deltaY * WHEEL_ROTATION_SPEED;
+
+    // Rotate paper around its centroid
+    paper.rot += deltaAngle;
+    const anchorOffset = rotate2(mul2(centroid, paper.scale), paper.rot);
+    paper.pos = sub2(centroidScreen, anchorOffset);
+  };
+
   canvas.addEventListener("pointerdown", onPointerDown);
   canvas.addEventListener("pointermove", onPointerMove);
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
+  canvas.addEventListener("wheel", onWheel, { passive: false });
 
   return () => {
     canvas.removeEventListener("pointerdown", onPointerDown);
     canvas.removeEventListener("pointermove", onPointerMove);
     canvas.removeEventListener("pointerup", onPointerUp);
     canvas.removeEventListener("pointercancel", onPointerCancel);
+    canvas.removeEventListener("wheel", onWheel);
   };
 }

@@ -22,13 +22,13 @@ export interface HelpCopy {
 export function helpCopyForSupport(support: PostureSupport): HelpCopy {
   if (support === PostureSupport.Available) {
     return {
-      fold: "<b>Fold</b>: close/open the device hinge to trigger a fold along the hinge line.",
-      gesture: "<b>One finger</b>: move. <b>Two fingers</b>: move + rotate.",
+      fold: "<b>Fold</b>: close/open the device hinge or press <b>Space</b> to trigger a fold along the hinge line.",
+      gesture: "<b>One finger</b>: move. <b>Two fingers</b>: move + rotate. <b>Scroll wheel</b>: rotate.",
     };
   }
   return {
-    fold: "<b>Fold</b>: press Space.",
-    gesture: "<b>Drag</b>: move. <b>Alt/Opt + drag</b>: rotate.",
+    fold: "<b>Fold</b>: press <b>Space</b>.",
+    gesture: "<b>Drag</b>: move. <b>Alt/Opt + drag</b>: rotate. <b>Scroll wheel</b>: rotate.",
   };
 }
 
