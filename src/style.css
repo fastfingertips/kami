@@ -18,7 +18,8 @@ body {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  touch-action: none; /* allow custom gestures */
+  touch-action: none;
+  /* allow custom gestures */
   display: block;
 }
 
@@ -113,6 +114,87 @@ button:disabled {
 
 .input-row label {
   display: inline-flex;
-  align-items: center;
   gap: 4px;
+}
+
+/* --- Responsive Interface Redesign --- */
+
+/* PC / Laptop Specific Styles */
+body[data-device="laptop"] #hud {
+  /* PC users have Space key, hiding Fold button to reduce clutter */
+  /* But keeping it functional if they really want to click */
+}
+
+body[data-device="laptop"] #foldFallback {
+  display: none !important;
+  /* Hide Fold button on PC */
+}
+
+body[data-device="laptop"] .help {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile / Phone Specific Styles */
+body[data-device="phone"] #hud {
+  top: auto;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 400px;
+  background: rgba(0, 0, 0, 0.65);
+  /* More visible on small screens */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 16px;
+  /* Rearrange for thumb access */
+  display: flex;
+  flex-direction: column-reverse;
+  /* Help/Settings on top, Actions below */
+  gap: 12px;
+}
+
+body[data-device="phone"] .row {
+  justify-content: space-between;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* Big Fold Button for Phone */
+body[data-device="phone"] #foldFallback {
+  flex: 1;
+  padding: 16px;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  order: 2;
+  /* Main focus */
+}
+
+body[data-device="phone"] #foldFallback:active {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0.98);
+}
+
+/* Secondary Actions on Phone */
+body[data-device="phone"] #undo,
+body[data-device="phone"] #resetActive {
+  padding: 12px 16px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Toggle Help Button on Phone */
+body[data-device="phone"] #toggleHelp {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  opacity: 0.8;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  padding: 4px;
 }

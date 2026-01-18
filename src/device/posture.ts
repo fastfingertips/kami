@@ -1,6 +1,6 @@
 import type { SegmentRect, SegmentSource } from "./hinge";
 import { getTauriPostureType } from "./tauri";
-import { Platform, resolveRuntimeInfo } from "./runtime";
+import { Device, Platform, resolveRuntimeInfo } from "./runtime";
 
 const runtime = resolveRuntimeInfo();
 
@@ -20,15 +20,20 @@ export interface HelpCopy {
 }
 
 export function helpCopyForSupport(support: PostureSupport): HelpCopy {
-  if (support === PostureSupport.Available) {
-    return {
-      fold: "<b>Fold</b>: close/open device hinge or <b>Space</b>. <b>Undo</b>: Ctrl + Z.",
-      gesture: "<b>One finger</b>: move. <b>Two fingers</b>: move + rotate. <b>Scroll</b>: rotate.",
-    };
-  }
+  // Combined help text for all platforms to avoid confusion
   return {
-    fold: "<b>Fold</b>: press <b>Space</b>. <b>Undo</b>: Ctrl + Z.",
-    gesture: "<b>Drag</b>: move. <b>Alt/Opt + drag</b> o <b>Scroll</b>: rotate.",
+    fold: `
+      <div class="help-row compact">
+        <span class="badge">Actions</span> 
+        <span class="val">Fold: Space/Btn <span class="sep">&bull;</span> Undo: Ctrl+Z</span>
+      </div>
+    `,
+    gesture: `
+      <div class="help-row compact">
+        <span class="badge">Gestures</span> 
+        <span class="val">Move: Drag <span class="sep">&bull;</span> Rotate: Wheel/2F</span>
+      </div>
+    `,
   };
 }
 

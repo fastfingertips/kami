@@ -37,6 +37,7 @@ import { options, updateOptions } from "./config/options";
 import { Device, Platform, resolveRuntimeInfo } from "./device/runtime";
 
 const { platform, device } = resolveRuntimeInfo();
+document.body.dataset.device = device;
 
 const canvasEl = getRequiredElement("c", HTMLCanvasElement);
 const ctx = getRequiredCanvas2dContext(canvasEl);
@@ -327,7 +328,7 @@ let helpVisible = false;
 
 const syncHelpVisibility = () => {
   helpBlockEl.style.display = helpVisible ? "flex" : "none";
-  toggleHelpBtn.textContent = helpVisible ? "Hide Options" : "Show Options";
+  // toggleHelpBtn.textContent = helpVisible ? "Hide Options" : "Show Options";
   toggleHelpBtn.setAttribute("aria-pressed", helpVisible ? "true" : "false");
   buyCoffeeLink.style.display = helpVisible ? "inline-flex" : "none";
 };
